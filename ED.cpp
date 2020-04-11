@@ -1,6 +1,7 @@
 // Copyright 2020 Adam Tremblay
 
 #include <iostream>
+#include <algorithm>
 #include <string>
 #include <vector>
 #include "ED.hpp"
@@ -18,18 +19,7 @@ int ED::penalty(char a, char b) {
 }
 
 int ED::min(int a, int b, int c) {
-    int minimum;
-    if (a <= b && a <= c) {
-        minimum = a;
-    }
-    else if (b <= a && b <= c) {
-        minimum = b;
-    }
-    else {
-        minimum = c;
-    }
-
-    return minimum;
+    return std::min(a, std::min(b, c));
 }
 
 int ED::optDistance() {
@@ -51,17 +41,17 @@ int ED::optDistance() {
     // now calculate rest of matrix
     for (int m = M_ - 2; m >= 0; --m) {
         for (int n = N_ - 2; n >= 0; --n) {
-            opt_.at(m).at(n) = min(opt_.at(m).at(n + 1) + 2, opt_.at(m + 1).at(n) + 2, opt_.at(m + 1).at(n + 1) + penalty(s1_.at(m), s2_.at(n)));
+            int f_bottom = opt_.at(m + 1).at(n) + 2;
+            int f_right = opt_.at(m).at(n + 1) + 2;
+            int mid = opt_.at(m + 1).at(n + 1) + penalty(s1_.at(m), s2_.at(n));
+            opt_.at(m).at(n) = ED::min(f_bottom, f_right, mid);
         }
     }
     return opt_.at(0).at(0);
 }
 
 int main() {
-	ED ed("KITTEN", "SITTING");
-	std::cout << "ED = " << ed.optDistance() << std::endl;
-
-
-
-	return 0;
+    ED ed("KITTEN", "SITTING");
+    std::cout << "ED = " << ed.optDistance() << std::endl;
+    return 0;
 }
