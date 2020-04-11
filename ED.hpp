@@ -20,4 +20,11 @@ class ED {
 	// printed to display the actual alignment. In general, 
 	// this will be a multi-line string
 	std::string alignment();
+ 
+ private:
+ 	std::string s1_;
+ 	std::string s2_;
+ 	int M_;
+ 	int N_;
+ 	std::vector<std::vector<int> > opt_;
 };
