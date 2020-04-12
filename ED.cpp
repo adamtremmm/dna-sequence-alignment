@@ -16,6 +16,9 @@ ED::ED(std::string s1, std::string s2) {
 }
 
 ED::~ED() {
+    for (int i = 0; i < M_; ++i) {
+        delete [] opt_[i];
+    }
     delete [] opt_;
 }
 
